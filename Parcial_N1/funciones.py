@@ -1,4 +1,4 @@
-# Funciones
+#------------------Funciones------------------#
 
 import json
 import random

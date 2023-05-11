@@ -1,4 +1,4 @@
-# Main
+#------------------Main------------------#
 
 from os import system
 from funciones import *
