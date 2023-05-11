@@ -240,9 +240,11 @@ def buscar_personajes_cumplen(lista:list, respuesta_raza:str, respuesta_habilida
                 lista_filtrada.append(personaje)        
                 cumplen = 1
             
-    if cumplen != 1:
-        print("\n¡No cumplen!\n¡No existe esa combinacion de raza y habilidad!")
-        lista_filtrada = "N/A"
+        if cumplen != 1:
+            print("\n¡No cumplen!\n¡No existe esa combinacion de raza y habilidad!")
+            lista_filtrada = "N/A"
+    else:
+        print("La lista no cumple con lo requerido para ser utilizada")
 
     return lista_filtrada
 
@@ -258,16 +260,19 @@ def seleccionar_personaje(lista:list)->dict:
         for i, personaje in enumerate(lista):
             print(f"Índice: {i}, Nombre: {personaje['nombre']}")
 
-    while bandera == False:
-        respuesta = input("\nIngrese una opcion: ")
-        bandera = validar_entero(respuesta)
-        if bandera == True:
-            numero = int(respuesta)
-            if numero < 0 or numero > 34:
-                bandera = False
-                print("El dato ingresado tiene que estar en los valores mostrados del indice")
-        else:
-            print("El dato ingresado no es un entero")
+        while bandera == False:
+            respuesta = input("\nIngrese una opcion: ")
+            bandera = validar_entero(respuesta)
+            if bandera == True:
+                numero = int(respuesta)
+                if numero < 0 or numero > 34:
+                    bandera = False
+                    print("El dato ingresado tiene que estar en los valores mostrados del indice")
+            else:
+                print("El dato ingresado no es un entero")
+    else:
+        print("La lista no cumple con lo requerido para ser utilizada")
+        numero = 0
 
     return lista[numero]
 
