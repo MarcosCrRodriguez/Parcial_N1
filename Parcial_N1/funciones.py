@@ -27,15 +27,15 @@ def menu_principal(menu:list)->int:
 
     return numero
 
-def leer_csv(RUTA:str)->list:
+def leer_csv(RUTA_CSV:str)->list:
     '''
     Brief: Lee un archivo csv, en el que tomo la informacion y lo transformo en una lista de listas
-    Parameters: RUTA -> donde esta hubicado el archivo csv
+    Parameters: RUTA_CSV -> donde esta hubicado el archivo csv
     Retorno: lista_retorno -> retorno la lista de listas
     '''
     lista_retorno = []
 
-    with open (RUTA, 'r', encoding='utf-8') as archivo: 
+    with open (RUTA_CSV, 'r', encoding='utf-8') as archivo: 
         for personaje in archivo:
             personaje = personaje.replace("\n", "") 
             lista_aux = personaje.split(',')
@@ -65,15 +65,15 @@ def devolver_lista_diccionarios(lista_listas:list)->list:
 
     return lista_de_diccionarios
 
-def generar_csv(RUTA_NUEVA:str, fecha_actual:str, personaje_ganador:dict, personaje_perderdor:dict)->None:
+def generar_csv(RUTA_BATALLA:str, fecha_actual:str, personaje_ganador:dict, personaje_perderdor:dict)->None:
     '''
     Brief: Genero un archivo csv, en donde guardo los datos pasados por parametros
-    Parameters: RUTA_NUEVA -> donde se guardara el archivo csv
+    Parameters: RUTA_BATALLA -> donde se guardara el archivo csv
                 fecha_actual -> fecha formateada para guardar en el archivo
                 personaje_ganador -> parsonaje ganador de la batalla para guardar en el archivo
                 personaje_perderdor -> parsonaje perdedor de la batalla para guardar en el archivo
     '''
-    with open(RUTA_NUEVA, 'a') as archivo:
+    with open(RUTA_BATALLA, 'a') as archivo:
         archivo.write(": ".join(["Fecha",fecha_actual]) + '\n')
         if personaje_ganador == personaje_perderdor:
             archivo.write(" -> ".join(["Empatados",personaje_ganador['nombre']]) + '\n')

@@ -17,8 +17,8 @@ menu = [
     "8-Salir del programa"
 ]
 
-RUTA = "C:\\Users\\rodri\\Downloads\\DBZ.csv"
-RUTA_NUEVA = "C:\\Users\\rodri\\OneDrive\\Documentos\\Archivos\\BATALLA.csv"
+RUTA_CSV = "C:\\Users\\rodri\\Downloads\\DBZ.csv"
+RUTA_BATALLA = "C:\\Users\\rodri\\OneDrive\\Documentos\\Archivos\\BATALLA.csv"
 RUTA_SAIYAN = "C:\\Users\\rodri\\OneDrive\\Documentos\\Archivos\\SAIYAN.csv"
 ruta =  "C:\\Users\\rodri\\OneDrive\\Documentos\\Archivos\\"
 
@@ -37,7 +37,7 @@ while seguir == True:
             if bandera_archivo == True:
                 print("\nYa se trajeron los datos de archivo correctamente\n")
             else: 
-                lista = leer_csv(RUTA)
+                lista = leer_csv(RUTA_CSV)
                 lista_diccionarios = devolver_lista_diccionarios(lista)
                 if lista_diccionarios != False:
                     bandera_archivo = True
@@ -79,7 +79,7 @@ while seguir == True:
                 else:
                     personaje_perdedor = personaje_random
                 fecha_actual = conseguir_fecha_actual()
-                generar_csv(RUTA_NUEVA, fecha_actual, personaje_ganador, personaje_perdedor)
+                generar_csv(RUTA_BATALLA, fecha_actual, personaje_ganador, personaje_perdedor)
             else:
                 print("\n¡ERROR!\n¡Primero debe traer los datos desde archivo!")
         case 6:
