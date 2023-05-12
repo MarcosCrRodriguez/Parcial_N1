@@ -13,11 +13,13 @@ menu = [
     "5-Jugar batalla",
     "6-Guardar Json",
     "7-Leer Json",
+    "9-Otorgar poder a Saiyan",
     "8-Salir del programa"
 ]
 
 RUTA = "C:\\Users\\rodri\\Downloads\\DBZ.csv"
 RUTA_NUEVA = "C:\\Users\\rodri\\OneDrive\\Documentos\\Archivos\\BATALLA.csv"
+RUTA_SAIYAN = "C:\\Users\\rodri\\OneDrive\\Documentos\\Archivos\\SAIYAN.csv"
 ruta =  "C:\\Users\\rodri\\OneDrive\\Documentos\\Archivos\\"
 
 cadena_primera = "Ingrese una raza de un personaje: "
@@ -104,5 +106,11 @@ while seguir == True:
         case 8:
             seguir = False
             print(f"\nUsted ha salido del menu")
+        case 9:
+            if bandera_archivo == True and bandera_actualizada == True:
+                lista_saiyan = otorgar_poder_saiyan(lista_actualizada)
+                generar_nuevo_csv(RUTA_SAIYAN, lista_saiyan)
+            else:
+                print("\n¡ERROR!\n¡Primero debe traer los datos desde archivo!")
         case _: 
             print(f"\n¡ERROR!\n¡Esta opcion no existe!\nReingrese su opcion de menu")

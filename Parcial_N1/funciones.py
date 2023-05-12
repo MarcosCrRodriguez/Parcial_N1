@@ -1,5 +1,6 @@
 #------------------Funciones------------------#
 
+import csv
 import json
 import random
 import datetime
@@ -79,7 +80,24 @@ def generar_csv(RUTA_NUEVA:str, fecha_actual:str, personaje_ganador:dict, person
             archivo.write(": ".join(["Empatados",personaje_perderdor['nombre']]) + '\n')
         else:
             archivo.write(": ".join(["Ganador",personaje_ganador['nombre']]) + '\n')
-            archivo.write(": ".join(["Perdedor",personaje_perderdor['nombre']]) + '\n')      
+            archivo.write(": ".join(["Perdedor",personaje_perderdor['nombre']]) + '\n') 
+
+def generar_nuevo_csv(RUTA_SAIYAN:str, lista_saiyan:list)->None:
+    '''
+    Brief: Genero un archivo csv, en donde cargo los datos pasados por parametros
+    Parameters: RUTA_SAIYAN -> donde se guardara el archivo csv
+                lista_saiyan -> lista de diccionarios que mostrare en el archivo
+    '''
+    with open(RUTA_SAIYAN, 'w', newline='') as archivo:
+        escritor = csv.writer(archivo) # acepta un objeto de archivo (file object) como argumento
+        for personaje in lista_saiyan:
+            fila = [personaje['id'],
+                    personaje['nombre'],
+                    personaje['raza'],
+                    personaje['poder_ataque'],
+                    personaje['poder_pelea'],
+                    personaje['habilidades']]
+            escritor.writerow(fila) # escribe una fila de datos en el archivo CSV
 
 def generar_json(ruta_json:str, lista_formateada:list)->int:
     '''
@@ -104,6 +122,35 @@ def leer_json(ruta_json:str):
         lista = json.load(archivo)
         for personaje in lista:
             print(personaje)
+
+def otorgar_poder_saiyan(lista:list)->list:
+    '''
+    Brief: Filtra los personajes de raza 'Saiyan' y los lleva a una funcion para trabajar con sus datos
+    Parameters: lista -> utilizamos la lista para recorrer y buscar los Saiyans que hay en la misma
+    Retorno: retorno una lista de los personajes saiyan 
+    '''
+    lista_saiyan = []
+
+    if(type(lista) == list and len(lista) > 0):
+        for personaje in lista:
+            if "Saiyan" in personaje['raza']:
+                personaje['poder_pelea'] = calcular_poder(personaje['poder_pelea'], 1.50)
+                personaje['poder_ataque'] = calcular_poder(personaje['poder_ataque'], 1.70)
+                personaje['habilidades'] = " |$%".join([personaje['habilidades'],"transformación nivel dios"])
+                lista_saiyan.append(personaje)
+
+    return lista_saiyan
+
+def calcular_poder(dato:int, porcentaje_agregado:float)->list:
+    '''
+    Brief: Se calcula el poder del personaje 
+    Parameters: dato -> poder del personaje
+                porcentaje_agregado -> porcentaje con el que se multiplicara y calculara el nuevo valor
+    Retorno: retorno el poder calculado
+    '''
+    agregado_poder = dato * porcentaje_agregado
+
+    return agregado_poder
 
 def pasaje_a_lista(lista:list, clave:str)->None:
     '''
