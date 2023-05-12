@@ -76,11 +76,11 @@ def generar_csv(RUTA_NUEVA:str, fecha_actual:str, personaje_ganador:dict, person
     with open(RUTA_NUEVA, 'a') as archivo:
         archivo.write(": ".join(["Fecha",fecha_actual]) + '\n')
         if personaje_ganador == personaje_perderdor:
-            archivo.write(": ".join(["Empatados",personaje_ganador['nombre']]) + '\n')
-            archivo.write(": ".join(["Empatados",personaje_perderdor['nombre']]) + '\n')
+            archivo.write(" -> ".join(["Empatados",personaje_ganador['nombre']]) + '\n')
+            archivo.write(" -> ".join(["Empatados",personaje_perderdor['nombre']]) + '\n')
         else:
-            archivo.write(": ".join(["Ganador",personaje_ganador['nombre']]) + '\n')
-            archivo.write(": ".join(["Perdedor",personaje_perderdor['nombre']]) + '\n') 
+            archivo.write(" -> ".join(["Ganador",personaje_ganador['nombre']]) + '\n')
+            archivo.write(" -> ".join(["Perdedor",personaje_perderdor['nombre']]) + '\n') 
 
 def generar_nuevo_csv(RUTA_SAIYAN:str, lista_saiyan:list)->None:
     '''
