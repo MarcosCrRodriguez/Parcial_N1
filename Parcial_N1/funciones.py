@@ -33,37 +33,25 @@ def leer_csv(RUTA_CSV:str)->list:
     Parameters: RUTA_CSV -> donde esta hubicado el archivo csv
     Retorno: lista_retorno -> retorno la lista de listas
     '''
-    lista_retorno = []
+    lista_diccionarios = []
 
     with open (RUTA_CSV, 'r', encoding='utf-8') as archivo: 
-        for personaje in archivo:
-            personaje = personaje.replace("\n", "") 
-            lista_aux = personaje.split(',')
-            lista_retorno.append(lista_aux)
+        csv_lector = csv.reader(archivo)
+        for row in csv_lector:
+            if len(row) != 6:
+                print(f"\n¡ERROR en la fila {csv_lector.line_num}!\nEl número de columnas es incorrecto")
+                continue
+            else:
+                diccionario = {'id': row[0], 
+                'nombre': row[1], 
+                'raza': row[2], 
+                'poder_ataque': row[3], 
+                'poder_pelea': row[4], 
+                'habilidades': row[5]
+            }
+            lista_diccionarios.append(diccionario)
 
-    return lista_retorno
-
-def devolver_lista_diccionarios(lista_listas:list)->list:
-    '''
-    Brief: Transformo la lista de listas en una lista de diccionarios
-    Parameters: lista_retorno -> pasamos la lista de listas para poder transformarla
-    Retorno: lista_retorno -> retorno la lista de diccionarios
-    '''
-    lista_de_diccionarios = []
-
-    if(type(lista_listas) == list and len(lista_listas) > 0):
-        for lista in lista_listas:
-            diccionario = {'id': lista[0], 
-                        'nombre': lista[1], 
-                        'raza': lista[2], 
-                        'poder_ataque': lista[3], 
-                        'poder_pelea': lista[4], 
-                        'habilidades': lista[5]}
-            lista_de_diccionarios.append(diccionario)
-    else: 
-        return False
-
-    return lista_de_diccionarios
+    return lista_diccionarios
 
 def generar_csv(RUTA_BATALLA:str, fecha_actual:str, personaje_ganador:dict, personaje_perderdor:dict)->None:
     '''
@@ -346,7 +334,7 @@ def conseguir_ganador_batalla(personaje_seleccionado:dict, personaje_random:dict
         else:
             personaje_ganador = personaje_random
     
-    print(f"El ganador es -> {personaje_ganador}")
+    print(f"El ganador es -> {personaje_ganador['nombre']}")
 
     return personaje_ganador
 

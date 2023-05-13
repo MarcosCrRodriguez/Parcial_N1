@@ -6,7 +6,6 @@ from funciones import *
 system("cls") 
 
 # Cosas a corregir:
-#   leer de archivo y recibir directamente una lista de dict
 #   validar los datos pasados de archivo a un tipo de dato
 #   armar ya antes de trabajar con la lista dee dict una lista para las habilidades
 #   (or armar una lista aparte para razas y habilidades) 
@@ -44,8 +43,7 @@ while seguir == True:
             if bandera_archivo == True:
                 print("\nYa se trajeron los datos de archivo correctamente\n")
             else: 
-                lista = leer_csv(RUTA_CSV)
-                lista_diccionarios = devolver_lista_diccionarios(lista)
+                lista_diccionarios = leer_csv(RUTA_CSV)
                 if lista_diccionarios != False:
                     bandera_archivo = True
                     print("\nSe trajeron los datos desde archivo correctamente\n")
