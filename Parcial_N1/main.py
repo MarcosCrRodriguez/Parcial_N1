@@ -5,6 +5,13 @@ from funciones import *
 
 system("cls") 
 
+# Cosas a corregir:
+#   leer de archivo y recibir directamente una lista de dict
+#   validar los datos pasados de archivo a un tipo de dato
+#   armar ya antes de trabajar con la lista dee dict una lista para las habilidades
+#   (or armar una lista aparte para razas y habilidades) 
+#   intentar de hacer funciones mas genericas en casos especificos
+
 menu = [
     "1-Traer datos desde archivo",
     "2-Listar cantidad por raza",
@@ -65,7 +72,7 @@ while seguir == True:
                 print("\n¡ERROR!\n¡Primero debe traer los datos desde archivo!")
         case 4:
             if bandera_archivo == True and bandera_actualizada == True:
-                habilidad_ingresada = listado_habilidades(lista_actualizada)
+                habilidad_ingresada = listado_habilidades(lista_actualizada, 'habilidades')
                 buscar_personajes_habilidad(lista_actualizada, habilidad_ingresada)
             else:
                 print("\n¡ERROR!\n¡Primero debe traer los datos desde archivo!")
@@ -94,6 +101,7 @@ while seguir == True:
                     retorno = generar_json(ruta_json, lista_formateada)
                     if retorno != -1:
                         bandera_ruta_json = True
+                        print("\nSe cargaron correctamente los datos")
                     else:
                         print("Algo salio mal al generar el json")
             else:
@@ -108,8 +116,9 @@ while seguir == True:
             print(f"\nUsted ha salido del menu")
         case 9:
             if bandera_archivo == True and bandera_actualizada == True:
-                lista_saiyan = otorgar_poder_saiyan(lista_actualizada)
+                lista_saiyan = otorgar_poder_saiyan(lista_actualizada, 'Saiyan')
                 generar_nuevo_csv(RUTA_SAIYAN, lista_saiyan)
+                print("\nSe cargaron en un archivo correctamente lo datos\n")
             else:
                 print("\n¡ERROR!\n¡Primero debe traer los datos desde archivo!")
         case _: 

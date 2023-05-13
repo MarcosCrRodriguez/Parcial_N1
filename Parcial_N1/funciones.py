@@ -123,7 +123,18 @@ def leer_json(ruta_json:str):
         for personaje in lista:
             print(personaje)
 
-def otorgar_poder_saiyan(lista:list)->list:
+def formato_ruta(ruta:str, cadena_json:str)->str:
+    '''
+    Brief: Armamos la ruta con un nombre formateado para ponerle al archivo json con ese mismo nombre
+    Parameters: ruta -> ruta que le falta el nombre del archivo
+                cadena_json -> nombre formateado del archivo que hubicaremos en la ruta
+    Retorno: retorno la ruta del archivo json
+    '''
+    ruta_json = "".join([ruta,cadena_json])
+
+    return ruta_json
+
+def otorgar_poder_saiyan(lista:list, cadena:str)->list:
     '''
     Brief: Filtra los personajes de raza 'Saiyan' y los lleva a una funcion para trabajar con sus datos
     Parameters: lista -> utilizamos la lista para recorrer y buscar los Saiyans que hay en la misma
@@ -133,7 +144,7 @@ def otorgar_poder_saiyan(lista:list)->list:
 
     if(type(lista) == list and len(lista) > 0):
         for personaje in lista:
-            if "Saiyan" in personaje['raza']:
+            if cadena in personaje['raza']:
                 personaje['poder_pelea'] = calcular_poder(personaje['poder_pelea'], 1.50)
                 personaje['poder_ataque'] = calcular_poder(personaje['poder_ataque'], 1.70)
                 personaje['habilidades'] = " |$%".join([personaje['habilidades'],"transformación nivel dios"])
@@ -158,27 +169,12 @@ def pasaje_a_lista(lista:list, clave:str)->None:
     Parameters: lista -> traemos a funcion la lista de diccionarios para pasar a lista las razas
                 clave -> es la key que traeremos a la funcion
     '''
-    nueva_lista = []
-
     if(type(lista) == list and len(lista) > 0):
-        for diccionario in lista:
-            raza = diccionario[clave]
-            nueva_lista.append(raza)
+        nueva_lista = cargar_lista_dato(lista, clave)
 
         contar_tipos(nueva_lista)
     else:
         print("Error al pasar la lista a la funcion")
-
-def formato_ruta(ruta:str, cadena_json:str)->str:
-    '''
-    Brief: Armamos la ruta con un nombre formateado para ponerle al archivo json con ese mismo nombre
-    Parameters: ruta -> ruta que le falta el nombre del archivo
-                cadena_json -> nombre formateado del archivo que hubicaremos en la ruta
-    Retorno: retorno la ruta del archivo json
-    '''
-    ruta_json = "".join([ruta,cadena_json])
-
-    return ruta_json
 
 def contar_tipos(nueva_lista:list)->None:
     '''
@@ -208,12 +204,8 @@ def listar_agrupados(lista:list, clave:str)->None:
     Parameters: lista -> lista de personajes que usaremos para reccorerla 
                 clave -> clave del diccionario que se encuentra en la lista
     '''
-    lista_dato = []
-    
     if(type(lista) == list and len(lista) > 0):
-        for personaje in lista:
-            dato = personaje[clave]
-            lista_dato.append(dato)
+        lista_dato = cargar_lista_dato(lista, clave)
         lista_dato_filtrada = set(lista_dato)
 
         for dato in lista_dato_filtrada:
@@ -230,7 +222,7 @@ def listar_agrupados(lista:list, clave:str)->None:
     else:
         print("Error al pasar la lista a la funcion")
 
-def listado_habilidades(lista:list)->str:
+def listado_habilidades(lista:list, clave:str)->str:
     '''
     Brief: Muestro la lista de habilidades y el usuario ingresa una habilidad de la lista
     Parameters: lista -> lista de personajes que usaremos para reccorerla y mostrarla
@@ -239,13 +231,10 @@ def listado_habilidades(lista:list)->str:
     print("Habilidades:\n")
 
     if(type(lista) == list and len(lista) > 0):
-        for personaje in lista:
-            if "|$%" in personaje['habilidades']:
-                habilidades = personaje['habilidades'].replace("|$%"," - ")
-                print(habilidades)
-            else:
-                print(personaje['habilidades'])
-
+        lista_dato = cargar_lista_dato(lista, clave) 
+        lista_dato_filtrada = set(lista_dato)
+        for personaje in lista_dato_filtrada:
+            print(f"\t{personaje}")     
     cadena = "Ingrese una habilidad de las mostradas en la lista: "
     respuesta = ingreso_dato_usuario(lista, cadena, 'habilidades')
 
@@ -357,6 +346,8 @@ def conseguir_ganador_batalla(personaje_seleccionado:dict, personaje_random:dict
         else:
             personaje_ganador = personaje_random
     
+    print(f"El ganador es -> {personaje_ganador}")
+
     return personaje_ganador
 
 def ingreso_dato_usuario(lista:list, cadena:str, clave:str)->str:
@@ -435,6 +426,17 @@ def formato_cadenas(respuesta_raza:str, respuesta_habilidad:str)->str:
     cadena_json = ".".join([cadena_formato,"Json"])
 
     return cadena_json
+
+def cargar_lista_dato(lista:list, clave:str)->list:
+    '''
+    '''
+    lista_dato = []
+
+    for diccionario in lista:
+        dato = diccionario[clave]
+        lista_dato.append(dato)
+
+    return lista_dato
 
 def calcular_promedio_fuerzas(poder_ataque:int, poder_pelea:int)->float:
     '''
