@@ -348,13 +348,17 @@ def ingreso_dato_usuario(lista:list, cadena:str, clave:str)->str:
     '''
     apruebo_respuesta = False
 
+    lista_datos = cargar_lista_dato(lista, clave)
+    lista_datos_filtrada = set(lista_datos)
+
     if(type(lista) == list and len(lista) > 0):
         while apruebo_respuesta == False:
+            for dato in lista_datos_filtrada:
+                print(dato)
             respuesta = input(f"\n{cadena}")
-            for personaje in lista:
-                if respuesta in personaje[clave]:
-                    apruebo_respuesta = True
-            if apruebo_respuesta != True:
+            if respuesta in dato:
+                apruebo_respuesta = True   
+            else:
                 print("No se encuentra ese dato en la lista")        
 
     return respuesta

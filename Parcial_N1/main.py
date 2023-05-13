@@ -6,9 +6,8 @@ from funciones import *
 system("cls") 
 
 # Cosas a corregir:
-#   validar los datos pasados de archivo a un tipo de dato
 #   armar ya antes de trabajar con la lista dee dict una lista para las habilidades
-#   (or armar una lista aparte para razas y habilidades) 
+#       (or armar una lista aparte para razas y habilidades) 
 #   intentar de hacer funciones mas genericas en casos especificos
 
 menu = [
