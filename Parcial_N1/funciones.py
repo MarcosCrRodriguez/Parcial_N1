@@ -111,6 +111,16 @@ def leer_json(ruta_json:str):
         for personaje in lista:
             print(personaje)
 
+def limpiar_dato(lista:list, clave:str)->list:
+    '''
+    '''
+    for personaje in lista:
+        personaje[clave] = personaje[clave].split("|$%")
+        for dato in personaje[clave]:
+            dato = dato.strip()
+    
+    return lista
+
 def formato_ruta(ruta:str, cadena_json:str)->str:
     '''
     Brief: Armamos la ruta con un nombre formateado para ponerle al archivo json con ese mismo nombre
@@ -136,7 +146,7 @@ def otorgar_poder_saiyan(lista:list, cadena:str)->list:
                 personaje['poder_pelea'] = calcular_poder(personaje['poder_pelea'], 1.50)
                 personaje['poder_ataque'] = calcular_poder(personaje['poder_ataque'], 1.70)
                 personaje['habilidades'] = " |$%".join([personaje['habilidades'],"transformación nivel dios"])
-                lista_saiyan.append(personaje)
+                lista_saiyan.append(personaje) # modificar tema habilidad para utilizar posible append()
 
     return lista_saiyan
 
@@ -210,42 +220,57 @@ def listar_agrupados(lista:list, clave:str)->None:
     else:
         print("Error al pasar la lista a la funcion")
 
-def listado_habilidades(lista:list, clave:str)->str:
+def ingresar_habilidad(lista:list, cadena:str, clave:str)->str:
     '''
-    Brief: Muestro la lista de habilidades y el usuario ingresa una habilidad de la lista
-    Parameters: lista -> lista de personajes que usaremos para reccorerla y mostrarla
-    Retorno: retorna la habilidad ingresada por el usuario 
     '''
+    apruebo_respuesta = False
     print("Habilidades:\n")
-
+    
     if(type(lista) == list and len(lista) > 0):
-        lista_dato = cargar_lista_dato(lista, clave) 
-        lista_dato_filtrada = set(lista_dato)
-        for personaje in lista_dato_filtrada:
-            print(f"\t{personaje}")     
-    cadena = "Ingrese una habilidad de las mostradas en la lista: "
-    respuesta = ingreso_dato_usuario(lista, cadena, 'habilidades')
+        while apruebo_respuesta == False:
+            mostrar_lista_dict_lista(lista, clave)
+            respuesta = input(f"\n{cadena}")
+            for diccionario in lista:
+                if respuesta in diccionario[clave]:
+                    apruebo_respuesta = True 
+            else:
+                print("No se encuentra ese dato en la lista")  
+    else:
+        print("La lista no cumple con lo requerido para ser utilizada")
 
     return respuesta
-    
-def buscar_personajes_habilidad(lista:list, habilidad:str)->None:
+
+def buscar_personajes_habilidad(lista:list, dato:str, clave:str)->None:
     '''
     Brief: Busca los personajes que tengas la habilidad ingresada en la funcion 'listado_habilidades' y lo muestra
     Parameters: lista -> lista de personajes que usaremos para reccorerla y trabajar con ella
-                habilidades -> habilidad ingresada por el usuario
+                dato -> habilidad ingresada por el usuario
+                clave -> valor de clave que necesitamos encontrar
     '''
-    found = 0
-
     if(type(lista) == list and len(lista) > 0):
-        for personaje in lista:
-            if habilidad in personaje['habilidades']:
-                print(f"\nNombre: {personaje['nombre']} -- Raza: {personaje['raza']}")
-                promedio = calcular_promedio_fuerzas(personaje['poder_ataque'], personaje['poder_pelea'])
-                print(f"Promedio entre 'poder_ataque' y 'poder_pelea': {promedio}")
-                found = 1
-    
-    if found == 0:
-        print("¡Debe ingresar una habilidad que se encuentre dentro de la lista de habilidades mostrada anteriormente!")
+        for diccionario in lista:
+            if dato in diccionario[clave]:
+                mostrar_personaje(diccionario['nombre'], diccionario['raza'], diccionario['poder_ataque'], diccionario['poder_pelea'])
+    else:
+        print("La lista no cumple con lo requerido para ser utilizada")
+
+def mostrar_lista_dict_lista(lista:list, clave:str)->None:
+    '''
+    '''
+    elementos_impresos = set()
+
+    for diccionario in lista:
+        for dato in diccionario[clave]:
+            if dato not in elementos_impresos:
+                print(dato)
+                elementos_impresos.add(dato)
+
+def mostrar_personaje(nombre:str, raza:str, poder_ataque:int, poder_pelea:int)->int:
+    '''
+    '''
+    print(f"\nNombre: {nombre} -- Raza: {raza}")
+    promedio = calcular_promedio_fuerzas(poder_ataque, poder_pelea)
+    print(f"Promedio entre 'poder_ataque' y 'poder_pelea': {promedio}")    
 
 def buscar_personajes_cumplen(lista:list, respuesta_raza:str, respuesta_habilidad:str)->str:
     '''
@@ -338,7 +363,7 @@ def conseguir_ganador_batalla(personaje_seleccionado:dict, personaje_random:dict
 
     return personaje_ganador
 
-def ingreso_dato_usuario(lista:list, cadena:str, clave:str)->str:
+def ingreso_dato_usuario(lista:list, cadena:str)->str:
     '''
     Biref: El usuario ingresa un dato y se recorre la lista comprobando que el dato ingresado este en la misma
     Parameters: lista -> lista que usaremos para verificar que el dato ingresado se encuentre en la misma
@@ -348,12 +373,9 @@ def ingreso_dato_usuario(lista:list, cadena:str, clave:str)->str:
     '''
     apruebo_respuesta = False
 
-    lista_datos = cargar_lista_dato(lista, clave)
-    lista_datos_filtrada = set(lista_datos)
-
     if(type(lista) == list and len(lista) > 0):
         while apruebo_respuesta == False:
-            for dato in lista_datos_filtrada:
+            for dato in lista:
                 print(dato)
             respuesta = input(f"\n{cadena}")
             if respuesta in dato:
@@ -362,6 +384,14 @@ def ingreso_dato_usuario(lista:list, cadena:str, clave:str)->str:
                 print("No se encuentra ese dato en la lista")        
 
     return respuesta
+
+def filtro_funciones(lista:list, clave:str)->list:
+    '''
+    '''
+    lista_datos = cargar_lista_dato(lista, clave)
+    lista_datos_filtrada = set(lista_datos)
+
+    return lista_datos_filtrada
 
 def formatear_lista(lista_filtrada:list, respuesta_habilidad:str)->list:
     '''

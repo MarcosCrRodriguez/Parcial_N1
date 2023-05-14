@@ -43,13 +43,14 @@ while seguir == True:
                 print("\nYa se trajeron los datos de archivo correctamente\n")
             else: 
                 lista_diccionarios = leer_csv(RUTA_CSV)
+                lista_modificada = limpiar_dato(lista_diccionarios, 'habilidades')
                 if lista_diccionarios != False:
                     bandera_archivo = True
                     print("\nSe trajeron los datos desde archivo correctamente\n")
                     if bandera_actualizada == True:
                         print("\nLos datos ya han sido normalizados\n")
                     else:
-                        lista_actualizada = convertir_a_entero(lista_diccionarios)
+                        lista_actualizada = convertir_a_entero(lista_modificada)
                         bandera_actualizada = True
                         print("\nDatos normalizados\n")
                 else:
@@ -69,8 +70,9 @@ while seguir == True:
                 print("\n¡ERROR!\n¡Primero debe traer los datos desde archivo!")
         case 4:
             if bandera_archivo == True and bandera_actualizada == True:
-                habilidad_ingresada = listado_habilidades(lista_actualizada, 'habilidades')
-                buscar_personajes_habilidad(lista_actualizada, habilidad_ingresada)
+                cadena = "Ingrese una habilidad de las mostradas en la lista: "
+                habilidad_ingresada = ingresar_habilidad(lista_actualizada, cadena, 'habilidades')
+                buscar_personajes_habilidad(lista_actualizada, habilidad_ingresada, 'habilidades')
             else:
                 print("\n¡ERROR!\n¡Primero debe traer los datos desde archivo!")
         case 5:
@@ -88,8 +90,10 @@ while seguir == True:
                 print("\n¡ERROR!\n¡Primero debe traer los datos desde archivo!")
         case 6:
             if bandera_archivo == True and bandera_actualizada == True:
-                respuesta_raza = ingreso_dato_usuario(lista_actualizada, cadena_primera, 'raza')
-                respuesta_habilidad = ingreso_dato_usuario(lista_actualizada, cadena_segunda, 'habilidades')
+                lista_datos_filtrada = (lista_actualizada, 'raza')
+                respuesta_raza = ingreso_dato_usuario(lista_datos_filtrada, cadena_primera)
+                lista_datos_filtrada = (lista_actualizada, 'habilidades')
+                respuesta_habilidad = ingreso_dato_usuario(lista_datos_filtrada, cadena_segunda)
                 cadena_json = formato_cadenas(respuesta_raza, respuesta_habilidad)
                 listado_flitrada = buscar_personajes_cumplen(lista_actualizada, respuesta_raza, respuesta_habilidad)
                 if listado_flitrada != "N/A":
