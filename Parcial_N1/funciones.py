@@ -1,5 +1,6 @@
 #------------------Funciones------------------#
 
+import re
 import csv
 import json
 import random
@@ -145,8 +146,8 @@ def otorgar_poder_saiyan(lista:list, cadena:str)->list:
             if cadena in personaje['raza']:
                 personaje['poder_pelea'] = calcular_poder(personaje['poder_pelea'], 1.50)
                 personaje['poder_ataque'] = calcular_poder(personaje['poder_ataque'], 1.70)
-                personaje['habilidades'] = " |$%".join([personaje['habilidades'],"transformación nivel dios"])
-                lista_saiyan.append(personaje) # modificar tema habilidad para utilizar posible append()
+                personaje['habilidades'].append("transformación nivel dios")
+                lista_saiyan.append(personaje) 
 
     return lista_saiyan
 
@@ -223,6 +224,7 @@ def listar_agrupados(lista:list, clave:str)->None:
 def ingresar_habilidad(lista:list, cadena:str, clave:str)->str:
     '''
     '''
+    encontrado = 0
     apruebo_respuesta = False
     print("Habilidades:\n")
     
@@ -231,10 +233,12 @@ def ingresar_habilidad(lista:list, cadena:str, clave:str)->str:
             mostrar_lista_dict_lista(lista, clave)
             respuesta = input(f"\n{cadena}")
             for diccionario in lista:
-                if respuesta in diccionario[clave]:
-                    apruebo_respuesta = True 
-            else:
-                print("No se encuentra ese dato en la lista")  
+                for dato in diccionario[clave]:
+                    if respuesta in dato:
+                        apruebo_respuesta = True  
+                        encontrado = 1
+            if encontrado != 1:
+                print("No se ha encontrado el dato ingresado en la lista") 
     else:
         print("La lista no cumple con lo requerido para ser utilizada")
 
@@ -259,11 +263,12 @@ def mostrar_lista_dict_lista(lista:list, clave:str)->None:
     '''
     elementos_impresos = set()
 
-    for diccionario in lista:
-        for dato in diccionario[clave]:
-            if dato not in elementos_impresos:
-                print(dato)
-                elementos_impresos.add(dato)
+    if(type(lista) == list and len(lista) > 0):
+        for diccionario in lista:
+            for dato in diccionario[clave]:
+                if dato not in elementos_impresos:
+                    print(dato)
+                    elementos_impresos.add(dato)
 
 def mostrar_personaje(nombre:str, raza:str, poder_ataque:int, poder_pelea:int)->int:
     '''
@@ -285,10 +290,11 @@ def buscar_personajes_cumplen(lista:list, respuesta_raza:str, respuesta_habilida
 
     if(type(lista) == list and len(lista) > 0):
         for personaje in lista:
-            if respuesta_raza in personaje['raza'] and respuesta_habilidad in personaje['habilidades']:
-                lista_filtrada.append(personaje)        
-                cumplen = 1
-            
+            if respuesta_raza in personaje['raza']:
+                for habilidad in personaje['habilidades']:
+                    if respuesta_habilidad in habilidad: 
+                        lista_filtrada.append(personaje)        
+                        cumplen = 1
         if cumplen != 1:
             print("\n¡No cumplen!\n¡No existe esa combinacion de raza y habilidad!")
             lista_filtrada = "N/A"
@@ -371,17 +377,20 @@ def ingreso_dato_usuario(lista:list, cadena:str)->str:
                 clave -> clave del diccionario
     Retorno: retorno dato ingresado
     '''
+    encuentro = 0
     apruebo_respuesta = False
 
     if(type(lista) == list and len(lista) > 0):
         while apruebo_respuesta == False:
+            imprimir_dato(lista)
+            respuesta = input(f"{cadena}")
             for dato in lista:
-                print(dato)
-            respuesta = input(f"\n{cadena}")
-            if respuesta in dato:
-                apruebo_respuesta = True   
-            else:
-                print("No se encuentra ese dato en la lista")        
+                if respuesta in dato:
+                    apruebo_respuesta = True 
+                    encuentro = 1  
+                    continue 
+            if encuentro != 1:
+                print("No se ha encontrado el dato ingresado en la lista")       
 
     return respuesta
 
@@ -390,8 +399,10 @@ def filtro_funciones(lista:list, clave:str)->list:
     '''
     lista_datos = cargar_lista_dato(lista, clave)
     lista_datos_filtrada = set(lista_datos)
+    lista_datos = list(lista_datos_filtrada)
+    print(lista_datos)
 
-    return lista_datos_filtrada
+    return lista_datos
 
 def formatear_lista(lista_filtrada:list, respuesta_habilidad:str)->list:
     '''
@@ -413,26 +424,26 @@ def formatear_lista(lista_filtrada:list, respuesta_habilidad:str)->list:
             
         return lista_formateada
 
-def formatear_habilidades(habilidades:str, respuesta_habilidad:str)->str:
+def formatear_habilidades(lista:list, habilidad_ingresada:str)->str:
     '''
     Brief: Formateamos la cadena y la retornamos
-    Parameters: habilidades -> las habilidades del personaje
-                respuesta_habilidad -> respuesta ingresada por el usuario
+    Parameters: lista -> lista de habilidades
+                habilidad_ingresada -> respuesta ingresada por el usuario
     Retorno: retorno la cadena formateada
-
     '''
-    habilidades = habilidades.split("|$%")
-    for i in range(len(habilidades)):
-        habilidades[i] = habilidades[i].strip()
-    for dato in habilidades:
-        if respuesta_habilidad in dato:
-            habilidades.remove(dato)
+    lista_nueva = []
 
-    if len(habilidades) > 1:
-        cadena = ", ".join(habilidades)
-        cadena_formateada = cadena.replace(", "," + ")
-    else:
-        cadena_formateada = "".join(habilidades)
+    if(type(lista) == list and len(lista) > 0):
+        for cadena in lista:
+            lista_nueva.append(cadena.strip())
+        lista_nueva.remove(habilidad_ingresada)
+        if len(lista_nueva) > 1:
+            separador = ", "
+            cadena = re.sub(",\s*", separador, ", ".join(lista_nueva))
+            cadena_formateada = re.sub(", "," + ",cadena)        
+
+        else:
+            cadena_formateada = "".join(str(lista_nueva[0]))
 
     return cadena_formateada
 
@@ -494,8 +505,8 @@ def imprimir_dato(dato=None)->None:
     Parameters: dato -> dato de algun tipo para ser mostrado por consola de diferentes maneras
     '''
     if(type(dato) == list and len(dato) > 0):
-        for opcion in dato:
-            print(opcion)
+        for valor in dato:
+            print(f"{valor}")
     else:
         print(dato)
 

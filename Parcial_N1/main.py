@@ -3,11 +3,11 @@
 from os import system
 from funciones import *
 
-system("cls") 
+system("cls")
 
 # Cosas a corregir:
 #   armar ya antes de trabajar con la lista dee dict una lista para las habilidades
-#       (or armar una lista aparte para razas y habilidades) 
+#       (or armar una lista aparte para razas y habilidades)
 #   intentar de hacer funciones mas genericas en casos especificos
 
 menu = [
@@ -23,10 +23,11 @@ menu = [
 ]
 
 RUTA_CSV = "C:\\Users\\rodri\\Downloads\\DBZ.csv"
-RUTA_BATALLA = "C:\\Users\\rodri\\OneDrive\\Documentos\\Archivos\\BATALLA.csv"
-RUTA_SAIYAN = "C:\\Users\\rodri\\OneDrive\\Documentos\\Archivos\\SAIYAN.csv"
-ruta =  "C:\\Users\\rodri\\OneDrive\\Documentos\\Archivos\\"
+RUTA_BATALLA = "C:\\Users\\rodri\\OneDrive\\Documentos\\Archivos\\Parcial_N1\\BATALLA.csv"
+RUTA_SAIYAN = "C:\\Users\\rodri\\OneDrive\\Documentos\\Archivos\\Parcial_N1\\SAIYAN.csv"
+ruta =  "C:\\Users\\rodri\\OneDrive\\Documentos\\Archivos\\Parcial_N1\\"
 
+cadena_habilidad = "Ingrese una habilidad de las mostradas en la lista: "
 cadena_primera = "Ingrese una raza de un personaje: "
 cadena_segunda = "Ingrese una habilidad de un personaje: "
 bandera_archivo = False
@@ -41,7 +42,7 @@ while seguir == True:
         case 1:
             if bandera_archivo == True:
                 print("\nYa se trajeron los datos de archivo correctamente\n")
-            else: 
+            else:
                 lista_diccionarios = leer_csv(RUTA_CSV)
                 lista_modificada = limpiar_dato(lista_diccionarios, 'habilidades')
                 if lista_diccionarios != False:
@@ -70,8 +71,7 @@ while seguir == True:
                 print("\n¡ERROR!\n¡Primero debe traer los datos desde archivo!")
         case 4:
             if bandera_archivo == True and bandera_actualizada == True:
-                cadena = "Ingrese una habilidad de las mostradas en la lista: "
-                habilidad_ingresada = ingresar_habilidad(lista_actualizada, cadena, 'habilidades')
+                habilidad_ingresada = ingresar_habilidad(lista_actualizada, cadena_habilidad, 'habilidades')
                 buscar_personajes_habilidad(lista_actualizada, habilidad_ingresada, 'habilidades')
             else:
                 print("\n¡ERROR!\n¡Primero debe traer los datos desde archivo!")
@@ -90,14 +90,13 @@ while seguir == True:
                 print("\n¡ERROR!\n¡Primero debe traer los datos desde archivo!")
         case 6:
             if bandera_archivo == True and bandera_actualizada == True:
-                lista_datos_filtrada = (lista_actualizada, 'raza')
-                respuesta_raza = ingreso_dato_usuario(lista_datos_filtrada, cadena_primera)
-                lista_datos_filtrada = (lista_actualizada, 'habilidades')
-                respuesta_habilidad = ingreso_dato_usuario(lista_datos_filtrada, cadena_segunda)
-                cadena_json = formato_cadenas(respuesta_raza, respuesta_habilidad)
-                listado_flitrada = buscar_personajes_cumplen(lista_actualizada, respuesta_raza, respuesta_habilidad)
+                habilidad_ingresada = ingresar_habilidad(lista_actualizada, cadena_habilidad, 'habilidades')
+                lista_clave = filtro_funciones(lista_actualizada, 'raza')
+                raza_ingresada = ingreso_dato_usuario(lista_clave, cadena_primera)
+                cadena_json = formato_cadenas(raza_ingresada, habilidad_ingresada)
+                listado_flitrada = buscar_personajes_cumplen(lista_actualizada, raza_ingresada, habilidad_ingresada)
                 if listado_flitrada != "N/A":
-                    lista_formateada = formatear_lista(listado_flitrada, respuesta_habilidad)
+                    lista_formateada = formatear_lista(listado_flitrada, habilidad_ingresada)
                     ruta_json = formato_ruta(ruta ,cadena_json)
                     retorno = generar_json(ruta_json, lista_formateada)
                     if retorno != -1:
@@ -122,5 +121,5 @@ while seguir == True:
                 print("\nSe cargaron en un archivo correctamente lo datos\n")
             else:
                 print("\n¡ERROR!\n¡Primero debe traer los datos desde archivo!")
-        case _: 
+        case _:
             print(f"\n¡ERROR!\n¡Esta opcion no existe!\nReingrese su opcion de menu")
