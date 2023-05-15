@@ -2,6 +2,7 @@
 
 from os import system
 from funciones import *
+from archivos import *
 
 system("cls")
 
@@ -118,7 +119,7 @@ while seguir == True:
             if bandera_archivo == True and bandera_actualizada == True:
                 lista_saiyan = otorgar_poder_saiyan(lista_actualizada, 'Saiyan')
                 generar_nuevo_csv(RUTA_SAIYAN, lista_saiyan)
-                print("\nSe cargaron en un archivo correctamente lo datos\n")
+                print("\nSe cargaron en un archivo correctamente los datos\n")
             else:
                 print("\n¡ERROR!\n¡Primero debe traer los datos desde archivo!")
         case _:
