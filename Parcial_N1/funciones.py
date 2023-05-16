@@ -208,7 +208,7 @@ def buscar_personajes_cumplen(lista:list, respuesta_raza:str, respuesta_habilida
 
     return lista_filtrada
 
-def seleccionar_personaje(lista:list)->dict:
+def ingresar_personaje(lista:list)->dict:
     '''
     Brief: La funcion pide ingresar un numero entero, siendo cada numero un personaje de DBZ
     Parameters: lista -> la lista que usaremos para mostrarla y poder elegir el nombre de un personaje
@@ -345,7 +345,6 @@ def formatear_habilidades(lista:list, habilidad_ingresada:str)->str:
             separador = ", "
             cadena = re.sub(",\s*", separador, ", ".join(lista_nueva))
             cadena_formateada = re.sub(", "," + ",cadena)        
-
         else:
             cadena_formateada = "".join(str(lista_nueva[0]))
 

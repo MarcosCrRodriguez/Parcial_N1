@@ -6,11 +6,6 @@ from archivos import *
 
 system("cls")
 
-# Cosas a corregir:
-#   armar ya antes de trabajar con la lista dee dict una lista para las habilidades
-#       (or armar una lista aparte para razas y habilidades)
-#   intentar de hacer funciones mas genericas en casos especificos
-
 menu = [
     "1-Traer datos desde archivo",
     "2-Listar cantidad por raza",
@@ -78,7 +73,7 @@ while seguir == True:
                 print("\n¡ERROR!\n¡Primero debe traer los datos desde archivo!")
         case 5:
             if bandera_archivo == True and bandera_actualizada == True:
-                personaje_seleccionado = seleccionar_personaje(lista_actualizada)
+                personaje_seleccionado = ingresar_personaje(lista_actualizada)
                 personaje_random = seleccionar_personaje_random(lista_actualizada)
                 personaje_ganador = conseguir_ganador_batalla(personaje_seleccionado, personaje_random)
                 if personaje_ganador != personaje_seleccionado:
