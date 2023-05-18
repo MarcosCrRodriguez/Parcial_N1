@@ -75,7 +75,7 @@ while seguir == True:
             if bandera_archivo == True and bandera_actualizada == True:
                 personaje_seleccionado = ingresar_personaje(lista_actualizada)
                 personaje_random = seleccionar_personaje_random(lista_actualizada)
-                personaje_ganador = conseguir_ganador_batalla(personaje_seleccionado, personaje_random)
+                personaje_ganador = conseguir_ganador_batalla(personaje_seleccionado, personaje_random, 'poder_ataque')
                 if personaje_ganador != personaje_seleccionado:
                     personaje_perdedor = personaje_seleccionado
                 else:

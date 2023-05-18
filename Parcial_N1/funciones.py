@@ -26,6 +26,18 @@ def menu_principal(menu:list)->int:
 
     return numero
 
+def limpiar_dato(lista:list, clave:str)->list:
+    '''
+    '''
+    for personaje in lista:
+        personaje[clave] = personaje[clave].split("|$%")
+        for i in range(len(personaje[clave])):
+            dato = personaje[clave][i]
+            dato_strip = dato.strip()
+            personaje[clave][i] = dato_strip
+    
+    return lista
+
 def formato_ruta(ruta:str, cadena_json:str)->str:
     '''
     Brief: Armamos la ruta con un nombre formateado para ponerle al archivo json con ese mismo nombre
@@ -111,16 +123,12 @@ def listar_agrupados(lista:list, clave:str)->None:
         lista_dato = cargar_lista_dato(lista, clave)
         lista_dato_filtrada = set(lista_dato)
 
+        print("\n#----------------Agrupación_razas----------------#\n")
+
         for dato in lista_dato_filtrada:
             print(dato)
-            for personaje in lista:
-                if dato == 'Androide-Humano':
-                    if 'Androide' in personaje[clave] or 'Humano' in personaje[clave]:    
-                        print(f"\t{personaje['nombre']} -- poder de ataque: {personaje['poder_ataque']}")
-                elif dato == 'Saiyan-Humano':
-                    if 'Humano' in personaje[clave] or 'Saiyan' in personaje[clave]:    
-                        print(f"\t{personaje['nombre']} -- poder de ataque: {personaje['poder_ataque']}")             
-                elif personaje[clave] == dato:
+            for personaje in lista:            
+                if personaje[clave] in dato:
                     print(f"\t{personaje['nombre']} -- poder de ataque: {personaje['poder_ataque']}")
     else:
         print("Error al pasar la lista a la funcion")
@@ -130,7 +138,7 @@ def ingresar_habilidad(lista:list, cadena:str, clave:str)->str:
     '''
     encontrado = 0
     apruebo_respuesta = False
-    print("Habilidades:\n")
+    print("\n#----------------Habilidades----------------#\n")
     
     if(type(lista) == list and len(lista) > 0):
         while apruebo_respuesta == False:
@@ -138,7 +146,7 @@ def ingresar_habilidad(lista:list, cadena:str, clave:str)->str:
             respuesta = input(f"\n{cadena}")
             for diccionario in lista:
                 for dato in diccionario[clave]:
-                    if respuesta in dato:
+                    if respuesta == dato:
                         apruebo_respuesta = True  
                         encontrado = 1
             if encontrado != 1:
@@ -197,7 +205,7 @@ def buscar_personajes_cumplen(lista:list, respuesta_raza:str, respuesta_habilida
         for personaje in lista:
             if respuesta_raza in personaje['raza']:
                 for habilidad in personaje['habilidades']:
-                    if respuesta_habilidad in habilidad: 
+                    if respuesta_habilidad == habilidad: 
                         lista_filtrada.append(personaje)        
                         cumplen = 1
         if cumplen != 1:
@@ -217,8 +225,9 @@ def ingresar_personaje(lista:list)->dict:
     bandera = False
 
     if(type(lista) == list and len(lista) > 0):
+        print("\nIndice:\n")
         for i, personaje in enumerate(lista):
-            print(f"Índice: {i}, Nombre: {personaje['nombre']}")
+            print(f"{i}, Nombre: {personaje['nombre']}")
 
         while bandera == False:
             respuesta = input("\nIngrese una opcion: ")
@@ -257,7 +266,7 @@ def conseguir_fecha_actual()->str:
 
     return fecha_actual
 
-def conseguir_ganador_batalla(personaje_seleccionado:dict, personaje_random:dict)->dict:
+def conseguir_ganador_batalla(personaje_seleccionado:dict, personaje_random:dict, clave:str)->dict:
     '''
     Brief: Funcion en donde se comparan los poderes de ataque y gana quien mayor poder tenga
     Parameters: personaje_seleccionado -> personaje seleccionado en funcion anterior
@@ -265,11 +274,12 @@ def conseguir_ganador_batalla(personaje_seleccionado:dict, personaje_random:dict
     Retorno: retorno el personaje ganador de la pelea 
     '''
     if (type(personaje_seleccionado) == dict and type(personaje_random) == dict):
-        if personaje_seleccionado['poder_ataque'] > personaje_random['poder_ataque']:
+        if personaje_seleccionado[clave] > personaje_random[clave]:
             personaje_ganador = personaje_seleccionado
         else:
             personaje_ganador = personaje_random
     
+    print("\n#----------------Batalla_finalizada----------------#\n")
     print(f"El ganador es -> {personaje_ganador['nombre']}")
 
     return personaje_ganador
@@ -290,7 +300,7 @@ def ingreso_dato_usuario(lista:list, cadena:str)->str:
             imprimir_dato(lista)
             respuesta = input(f"{cadena}")
             for dato in lista:
-                if respuesta in dato:
+                if respuesta == dato:
                     apruebo_respuesta = True 
                     encuentro = 1  
                     continue 
@@ -336,17 +346,21 @@ def formatear_habilidades(lista:list, habilidad_ingresada:str)->str:
     Retorno: retorno la cadena formateada
     '''
     lista_nueva = []
+    cadena_formateada = "N/A"
 
     if(type(lista) == list and len(lista) > 0):
         for cadena in lista:
             lista_nueva.append(cadena.strip())
-        lista_nueva.remove(habilidad_ingresada)
-        if len(lista_nueva) > 1:
-            separador = ", "
-            cadena = re.sub(",\s*", separador, ", ".join(lista_nueva))
-            cadena_formateada = re.sub(", "," + ",cadena)        
+        if habilidad_ingresada in lista_nueva:
+            lista_nueva.remove(habilidad_ingresada)
+            if len(lista_nueva) > 1:
+                separador = ", "
+                cadena = re.sub(",\s*", separador, ", ".join(lista_nueva))
+                cadena_formateada = re.sub(", "," + ",cadena)        
+            else:
+                cadena_formateada = "".join(str(lista_nueva[0]))
         else:
-            cadena_formateada = "".join(str(lista_nueva[0]))
+            print("Esa habilidad no se encuentra en las habilidades buscadas")
 
     return cadena_formateada
 

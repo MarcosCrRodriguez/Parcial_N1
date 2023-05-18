@@ -11,7 +11,7 @@ def leer_csv(RUTA_CSV:str)->list:
     '''
     lista_diccionarios = []
 
-    with open (RUTA_CSV, 'r', encoding='utf-8') as archivo: 
+    with open(RUTA_CSV, 'r', encoding='utf-8') as archivo: 
         csv_lector = csv.reader(archivo)
         for row in csv_lector:
             if len(row) != 6:
@@ -26,6 +26,8 @@ def leer_csv(RUTA_CSV:str)->list:
                 'habilidades': row[5]
             }
             lista_diccionarios.append(diccionario)
+
+    archivo.close()
 
     return lista_diccionarios
 
@@ -44,7 +46,9 @@ def generar_csv(RUTA_BATALLA:str, fecha_actual:str, personaje_ganador:dict, pers
             archivo.write(" -> ".join(["Empatados",personaje_perderdor['nombre']]) + '\n')
         else:
             archivo.write(" -> ".join(["Ganador",personaje_ganador['nombre']]) + '\n')
-            archivo.write(" -> ".join(["Perdedor",personaje_perderdor['nombre']]) + '\n') 
+            archivo.write(" -> ".join(["Perdedor",personaje_perderdor['nombre']]) + '\n')
+
+    archivo.close() 
 
 def generar_nuevo_csv(RUTA_SAIYAN:str, lista_saiyan:list)->None:
     '''
@@ -62,6 +66,8 @@ def generar_nuevo_csv(RUTA_SAIYAN:str, lista_saiyan:list)->None:
                     personaje['poder_pelea'],
                     personaje['habilidades']]
             escritor.writerow(fila) # escribe una fila de datos en el archivo CSV
+    
+    archivo.close()
 
 def generar_json(ruta_json:str, lista_formateada:list)->int:
     '''
@@ -75,6 +81,8 @@ def generar_json(ruta_json:str, lista_formateada:list)->int:
         json.dump(lista_formateada, archivo, indent=4)
         retorno = 1
 
+    archivo.close()
+
     return retorno
 
 def leer_json(ruta_json:str):
@@ -87,12 +95,4 @@ def leer_json(ruta_json:str):
         for personaje in lista:
             print(personaje)
 
-def limpiar_dato(lista:list, clave:str)->list:
-    '''
-    '''
-    for personaje in lista:
-        personaje[clave] = personaje[clave].split("|$%")
-        for dato in personaje[clave]:
-            dato = dato.strip()
-    
-    return lista
+    archivo.close()
