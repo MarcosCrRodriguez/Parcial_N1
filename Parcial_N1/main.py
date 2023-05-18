@@ -14,8 +14,8 @@ menu = [
     "5-Jugar batalla",
     "6-Guardar Json",
     "7-Leer Json",
-    "9-Otorgar poder a Saiyan",
-    "8-Salir del programa"
+    "8-Otorgar poder a Saiyan",
+    "9-Salir del programa"
 ]
 
 RUTA_CSV = "C:\\Users\\rodri\\Downloads\\DBZ.csv"
@@ -108,14 +108,14 @@ while seguir == True:
             else:
                 print("\n¡ERROR!\n¡Primero debe guardar el archivo json!")
         case 8:
-            seguir = False
-            print(f"\nUsted ha salido del menu")
-        case 9:
             if bandera_archivo == True and bandera_actualizada == True:
                 lista_saiyan = otorgar_poder_saiyan(lista_actualizada, 'Saiyan')
                 generar_nuevo_csv(RUTA_SAIYAN, lista_saiyan)
                 print("\nSe cargaron en un archivo correctamente los datos\n")
             else:
                 print("\n¡ERROR!\n¡Primero debe traer los datos desde archivo!")
+        case 9:
+            seguir = False
+            print(f"\nUsted ha salido del menu")
         case _:
             print(f"\n¡ERROR!\n¡Esta opcion no existe!\nReingrese su opcion de menu")
