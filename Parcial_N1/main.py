@@ -110,7 +110,7 @@ while seguir == True:
         case 8:
             if bandera_archivo == True and bandera_actualizada == True:
                 lista_saiyan = otorgar_poder_saiyan(lista_actualizada, 'Saiyan')
-                generar_nuevo_csv(RUTA_SAIYAN, lista_saiyan)
+                generar_saiyan_csv(RUTA_SAIYAN, lista_saiyan)
                 print("\nSe cargaron en un archivo correctamente los datos\n")
             else:
                 print("\n¡ERROR!\n¡Primero debe traer los datos desde archivo!")

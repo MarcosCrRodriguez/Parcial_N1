@@ -27,8 +27,6 @@ def leer_csv(RUTA_CSV:str)->list:
             }
             lista_diccionarios.append(diccionario)
 
-    archivo.close()
-
     return lista_diccionarios
 
 def generar_csv(RUTA_BATALLA:str, fecha_actual:str, personaje_ganador:dict, personaje_perderdor:dict)->None:
@@ -48,16 +46,14 @@ def generar_csv(RUTA_BATALLA:str, fecha_actual:str, personaje_ganador:dict, pers
             archivo.write(" -> ".join(["Ganador",personaje_ganador['nombre']]) + '\n')
             archivo.write(" -> ".join(["Perdedor",personaje_perderdor['nombre']]) + '\n')
 
-    archivo.close() 
-
-def generar_nuevo_csv(RUTA_SAIYAN:str, lista_saiyan:list)->None:
+def generar_saiyan_csv(RUTA_SAIYAN:str, lista_saiyan:list)->None:
     '''
     Brief: Genero un archivo csv, en donde cargo los datos pasados por parametros
     Parameters: RUTA_SAIYAN -> donde se guardara el archivo csv
                 lista_saiyan -> lista de diccionarios que mostrare en el archivo
     '''
-    with open(RUTA_SAIYAN, 'w', newline='') as archivo:
-        escritor = csv.writer(archivo) # acepta un objeto de archivo (file object) como argumento
+    with open(RUTA_SAIYAN, 'w', newline='', encoding='utf-8') as archivo:
+        escritor = csv.writer(archivo) 
         for personaje in lista_saiyan:
             fila = [personaje['id'],
                     personaje['nombre'],
@@ -65,9 +61,7 @@ def generar_nuevo_csv(RUTA_SAIYAN:str, lista_saiyan:list)->None:
                     personaje['poder_ataque'],
                     personaje['poder_pelea'],
                     personaje['habilidades']]
-            escritor.writerow(fila) # escribe una fila de datos en el archivo CSV
-    
-    archivo.close()
+            escritor.writerow(fila) 
 
 def generar_json(ruta_json:str, lista_formateada:list)->int:
     '''
@@ -81,8 +75,6 @@ def generar_json(ruta_json:str, lista_formateada:list)->int:
         json.dump(lista_formateada, archivo, indent=4)
         retorno = 1
 
-    archivo.close()
-
     return retorno
 
 def leer_json(ruta_json:str):
@@ -94,5 +86,3 @@ def leer_json(ruta_json:str):
         lista = json.load(archivo)
         for personaje in lista:
             print(personaje)
-
-    archivo.close()
