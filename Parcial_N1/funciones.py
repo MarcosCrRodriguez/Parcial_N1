@@ -247,7 +247,7 @@ def ingresar_personaje(lista:list)->dict:
             print(f"{i}, Nombre: {personaje['nombre']}")
 
         while bandera == False:
-            respuesta = input("\nIngrese una opcion: ")
+            respuesta = input("\nIngrese una personaje segun el indice: ")
             bandera = validar_entero(respuesta)
             if bandera == True:
                 numero = int(respuesta)
