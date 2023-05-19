@@ -28,6 +28,10 @@ def menu_principal(menu:list)->int:
 
 def limpiar_dato(lista:list, clave:str)->list:
     '''
+    Brief: Funcion que transforma una cadena en una lista, sacando los espacios vacios de los datos de la nueva lista
+    Parameters: lista -> lista que utilizazremos para recorrerla y transformar los datos
+                clave -> valor de la clave que transformaremos los datos
+    Retorno: retorno de la lista modificada
     '''
     for personaje in lista:
         personaje[clave] = personaje[clave].split("|$%")
@@ -135,6 +139,11 @@ def listar_agrupados(lista:list, clave:str)->None:
 
 def ingresar_habilidad(lista:list, cadena:str, clave:str)->str:
     '''
+    Brief: Ingreso de dato del usuario
+    Parameters: lista -> muestro y recorro la lista verificando que el dato ingresado este dentro de la misma       
+                cadena -> esta cadena es la pregunta que le haremos al usuario para ingresar un dato
+                clave -> clave del diccionario que necesitaremos para verificar si se encuentra el dato ingresado en ella
+    Retorno: retorna el dato ingreasdo por el usuario    
     '''
     encontrado = 0
     apruebo_respuesta = False
@@ -173,6 +182,9 @@ def buscar_personajes_habilidad(lista:list, dato_ingresado:str, clave:str)->None
 
 def mostrar_lista_dict_lista(lista:list, clave:str)->None:
     '''
+    Brief: Muestro la lista por consola
+    Parameters: lista -> lista que recorreremos 
+                clave -> valor de clave que mostraremos
     '''
     elementos_impresos = set()
 
@@ -183,8 +195,13 @@ def mostrar_lista_dict_lista(lista:list, clave:str)->None:
                     print(dato)
                     elementos_impresos.add(dato)
 
-def mostrar_personaje(nombre:str, raza:str, poder_ataque:int, poder_pelea:int)->int:
+def mostrar_personaje(nombre:str, raza:str, poder_ataque:int, poder_pelea:int)->None:
     '''
+    Brief: Muestro un personaje con sus datos
+    Parameters: nombre -> nombre de personaje
+                raza -> raza del personaje
+                poder_ataque -> poder de ataque del personaje
+                poder_pelea -> poder de pelea del personaje
     '''
     print(f"\nNombre: {nombre} -- Raza: {raza}")
     promedio = calcular_promedio_fuerzas(poder_ataque, poder_pelea)
@@ -311,6 +328,10 @@ def ingreso_dato_usuario(lista:list, cadena:str)->str:
 
 def filtro_funciones(lista:list, clave:str)->list:
     '''
+    Brief: Transforma una lista de datos repetidos, en una lista filtrada
+    Parameters: lista -> lista que filtraremos
+                clave -> valores que sera almacenados en la lista
+    Retorno: retorno la lista filtrada
     '''
     lista_datos = cargar_lista_dato(lista, clave)
     lista_datos_filtrada = set(lista_datos)
@@ -379,6 +400,10 @@ def formato_cadenas(respuesta_raza:str, respuesta_habilidad:str)->str:
 
 def cargar_lista_dato(lista:list, clave:str)->list:
     '''
+    Brief: En una lista nueva cargamos un dato especifico de la lista de diccionarios
+    Paramterers: lista -> lista que recorreremos para cargar datos en nueva lista
+                clave -> dato de clave que utilizaremos para cargar en la nueva lista
+    Retorno: nueva lista de datos
     '''
     lista_dato = []
 

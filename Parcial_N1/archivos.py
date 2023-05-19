@@ -5,7 +5,7 @@ import json
 
 def leer_csv(RUTA_CSV:str)->list:
     '''
-    Brief: Lee un archivo csv, en el que tomo la informacion y lo transformo en una lista de listas
+    Brief: Lee un archivo csv, en el que tomo la informacion y lo transformo en una lista de diccionarios
     Parameters: RUTA_CSV -> donde esta hubicado el archivo csv
     Retorno: lista_retorno -> retorno la lista de listas
     '''
