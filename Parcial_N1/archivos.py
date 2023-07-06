@@ -72,7 +72,7 @@ def generar_json(ruta_json:str, lista_formateada:list)->int:
     retorno = -1
 
     with open(ruta_json, 'w') as archivo:
-        json.dump(lista_formateada, archivo, indent=4)
+        json.dump(lista_formateada, archivo, indent=4, ensure_ascii=False)
         retorno = 1
 
     return retorno

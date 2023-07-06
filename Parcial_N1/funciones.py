@@ -438,7 +438,7 @@ def convertir_a_entero(lista:list)->list:
             diccionario['poder_ataque'] = int(diccionario['poder_ataque'])
             diccionario['poder_pelea'] = int(diccionario['poder_pelea'])
     else: 
-        print("\nError: Lista de héroes vacía\n")
+        print("\nError: Lista de personajes vacía\n")
 
     return lista
 

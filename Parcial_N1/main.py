@@ -18,11 +18,10 @@ menu = [
     "9-Salir del programa"
 ]
 
-RUTA_CSV = "C:\\Users\\rodri\\Downloads\\DBZ.csv"
-RUTA_BATALLA = "C:\\Users\\rodri\\OneDrive\\Documentos\\Archivos\\Parcial_N1\\BATALLA.csv"
-RUTA_SAIYAN = "C:\\Users\\rodri\\OneDrive\\Documentos\\Archivos\\Parcial_N1\\SAIYAN.csv"
-ruta =  "C:\\Users\\rodri\\OneDrive\\Documentos\\Archivos\\Parcial_N1\\"
-
+RUTA_CSV = "Parcial_N1\DBZ.csv"
+RUTA_BATALLA = "Parcial_N1\BATALLA.csv"
+RUTA_SAIYAN = "Parcial_N1\SAIYAN.csv"
+ruta =  "Parcial_N1\\"
 cadena_habilidad = "Ingrese una habilidad de las mostradas en la lista: "
 cadena_primera = "Ingrese una raza de un personaje: "
 cadena_segunda = "Ingrese una habilidad de un personaje: "
